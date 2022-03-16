@@ -7,6 +7,7 @@ This file creates your application.
 
 from app import app
 from flask import render_template, request, redirect, url_for
+from .forms import createForm
 
 
 ###
@@ -22,9 +23,53 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Zavier Rattray")
 
 
+@app.route('/properties/create')
+def createTemplate(error=None, error_msg=None, form=form):
+    """Render the website's create page."""
+    return render_template('create.html',error=error,error_msg=error_msg, form=form, title='Create Property')
+
+if request.method != "POST": 
+        return createTemplate()
+
+    if 'photo' not in request.files: # Checking if image was sent with request
+        return createTemplate('alert-warning', 'No photo uploaded!')
+
+    _file = request.files['photo']
+
+    # Validation of form data 
+    # Checks that a file was submitted
+    # Checks that file does not contain empty string
+    # as filename
+
+    if not (form.validate() or _file or _file.filename):
+        return createTemplate(error='alert-danger', error_msg='Failed to Create Property!')
+
+    filterUserData = dict(filter(lambda attr: attr[0] in User.attrs, form.data.items())) 
+    photo = secure_filename(_file.filename)
+    _file.save(os.path.join(app.config['UPLOAD_FOLDER'], photo))  
+
+    # Updating filtered user data dictionary with property photo
+    # filename, as well as, save the new user data to database
+
+    filterUserData['profileImage'] = profileImage 
+    save_user(filterUserData) 
+
+    flash('Success!', 'alert-success')
+    return redirect(url_for('properties'))
+
+@app.route('/properties')
+def properties():
+    properties=property.query.all()
+    return render_template(properties.html)
+
+@app.route('/properties/ <propertyid>')
+def getProperty(propertyid):
+    prop= property.query.get(propertyid)
+    propertyName=f'{property.title}'
+    return render_template('property.html',property=property, title=propertyName)
 ###
 # The functions below should be applicable to all Flask apps.
 ###
