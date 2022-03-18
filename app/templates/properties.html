@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'flash_messages.html' %}
+
+    {% if properties %}
+
+        <div class="row">
+            {% for property in properties %}
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card">
+                    <img class="card-photo" src="{{ url_for('uploaded_file' ,  filename=property.photo) }}" alt="Property">
+
+                    <div class="card-body">
+                    
+                        <h5 class="card-title">{{ property.propTitle }}</h5>
+                        
+                        <p class="card-text">
+                            <span></span>
+                            {{ property.desc }}
+                        </p>
+
+                        <p class="card-text">
+                            {{ property.rooms }}
+                        </p>
+
+                        <p class="card-text">
+                            {{ property.btroom }}
+                        </p>
+
+                        <p class="card-text">
+                            {{ property.price }}
+                        </p>
+
+                        <p class="card-text">
+                            {{ property.pType }}
+                        </p>
+
+                        <p class="card-text">
+                            {{ property.location }}
+                        </p>
+
+
+                        <a href="{{ }}" class="btn btn-primary">Email Realtor</a>
+                    
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    {% else %}Properties</h2>
+    {% endif %}
+{% endblock %}

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired, FileAllowed
 from wtforms import StringField, SelectField, TextAreaField, FileField, SubmitField, validators
-from wtforms.validators import InputRequired, Email, Length
+from wtforms.validators import InputRequired,Length
 
 # User sign-up form
 class createForm(FlaskForm): 
@@ -27,12 +27,8 @@ class createForm(FlaskForm):
         ])
 
     pType = SelectField("Property Type", choices=[ 
-        ("House")])
+        ("House"),("Apartment")])
     
-    email = StringField('Email', validators=[
-            InputRequired(),
-            Email()
-        ])
     location = StringField('Location', validators=[
             InputRequired(),
             Length(min=3,max=256)
