@@ -25,11 +25,14 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Zavier Rattray")
 
+@app.route("/property", methods=['GET','POST'])
+def createProperty():
+    form=createForm()
 
 @app.route('/property/')
 def createTemplate(error=None, error_msg=None, form= createForm):
     """Render the website's create page."""
-    return render_template('property.html',error=error,error_msg=error_msg, form=createForm, title='Create Property')
+    return render_template('createProperty.html',error=error,error_msg=error_msg, form=createForm, title='Create Property')
 
     if request.method != "POST": 
             return createTemplate()
@@ -58,7 +61,7 @@ def createTemplate(error=None, error_msg=None, form= createForm):
         save_user(filterUserData) 
 
         flash('Success!', 'alert-success')
-        return redirect(url_for('property'))
+        return redirect(url_for('properties'))
 
 @app.route('/properties/')
 def properties():
