@@ -41,7 +41,7 @@ def createProperty():
         flash('Success!')
         return redirect(url_for('properties'))
     else:
-        flash('Invalid Username/Password.','danger') 
+        flash('Errror!') 
         #return redirect(url_for("createProperty"))  
     return render_template('createProperty.html',form=form)
     
