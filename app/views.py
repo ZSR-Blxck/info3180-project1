@@ -33,28 +33,28 @@ def createProperty():
     #return render_template('createProperty.html')
     form=CreateForm()
     
-    if request.method == "POST" and form.validate_on_submit():
-    # #p1 = PropertyInfo(propTitle = form.propTitle. desc = form.desc.data, rooms= form.rooms.data, btroom=form.btroom.data, price=form.price.data, pType=form.pType.data, location=form.location.data )
-        p1= PropertyInfo(request.form['propTitle'],request.form['desc'],request.form['rooms'],request.form['btroom'],request.form['price'],request.form['pType'], request.form['location'])
-        db.session.add(p1)
-        db.session.commit()
-        flash('Success!')
-        return redirect(url_for('properties'))
-    else:
-        flash('Errror!') 
-        #return redirect(url_for("createProperty"))  
+    if request.method == 'POST':
+        if form.validate() == False:
+            flash('Errror!') 
+            return redirect(url_for("home"))  
+        else:
+            p1= PropertyInfo(request.form['propTitle'],request.form['desc'],request.form['rooms'],request.form['btroom'],request.form['price'],request.form['pType'], request.form['location'])
+            db.session.add(p1)
+            db.session.commit()
+            flash('Success!')
+            return redirect(url_for('properties'))
     return render_template('createProperty.html',form=form)
     
 
 @app.route('/properties/')
 def properties():
-    properties=property.query.all()
+    PropertyInfo.query().all()
     return render_template('properties.html')
 
 @app.route('/properties/ <propertyid>')
 def getProperty(propertyid):
-    prop= property.query.get(propertyid)
-    propertyName=f'{property.title}'
+    prop= PropertyInfo.query.get(propertyid)
+    propertyName=f'{PropertyInfo.propTitle}'
     return render_template('property.html',property=property, title=propertyName)
 ###
 # The functions below should be applicable to all Flask apps.
