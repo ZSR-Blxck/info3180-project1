@@ -27,8 +27,8 @@ def about():
     return render_template('about.html', name="Zavier Rattray")
 
 
-@app.route('/createProperty/', methods=['GET','POST'])
-def createProperty():
+@app.route('/properties/create/', methods=['GET','POST'])
+def create():
     """Render the website's create page."""
     #return render_template('createProperty.html')
     form=CreateForm()
@@ -43,19 +43,19 @@ def createProperty():
             db.session.commit()
             flash('Success!')
             return redirect(url_for('properties'))
-    return render_template('createProperty.html',form=form)
+    return render_template('create.html',form=form)
     
 
 @app.route('/properties/')
 def properties():
-    PropertyInfo.query().all()
-    return render_template('properties.html')
+    propertys= db.session.query(PropertyInfo).all()
+    return render_template('properties.html', properties=propertys)
 
 @app.route('/properties/ <propertyid>')
 def getProperty(propertyid):
-    prop= PropertyInfo.query.get(propertyid)
-    propertyName=f'{PropertyInfo.propTitle}'
-    return render_template('property.html',property=property, title=propertyName)
+    prop= db.session.query.get(propertyid)
+    propertyName=f'{db.session.propTitle}'
+    return render_template('properties.html',property=prop, title=propertyName)
 ###
 # The functions below should be applicable to all Flask apps.
 ###
