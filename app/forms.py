@@ -4,24 +4,24 @@ from wtforms import StringField, SelectField, TextAreaField, FileField, SubmitFi
 from wtforms.validators import InputRequired,Length
 
 # User sign-up form
-class createForm(FlaskForm): 
+class CreateForm(FlaskForm): 
     propTitle = StringField('Property Title', validators=[
            InputRequired(),
             Length(min=3,max=30)
         ])
     desc = TextAreaField('Description', validators=[InputRequired()])
 
-    rooms = StringField('Mo. of Rooms', validators=[
+    rooms = StringField('No. of Rooms', validators=[
             InputRequired(),
-            Length(min=3,max=30)
+            Length(min=1,max=30)
         ])
 
-    btroom = StringField('Mo. of Rooms', validators=[
+    btroom = StringField('No. of Bathrooms', validators=[
             InputRequired(),
-            Length(min=3,max=30)
+            Length(min=1,max=30)
         ])
 
-    price = StringField('Mo. of Bathrooms', validators=[
+    price = StringField('Price', validators=[
             InputRequired(),
             Length(min=3,max=30)
         ])

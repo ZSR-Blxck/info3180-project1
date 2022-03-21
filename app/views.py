@@ -5,9 +5,10 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
 
-from app import app
-from flask import render_template, request, redirect, url_for
-from .forms import createForm
+from app import app,db
+from flask import render_template, request, redirect, url_for, flash
+from app.forms import CreateForm
+from app.models import PropertyInfo
 
 
 ###
@@ -25,43 +26,25 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Zavier Rattray")
 
-@app.route("/property", methods=['GET','POST'])
+
+@app.route('/createProperty/', methods=['GET','POST'])
 def createProperty():
-    form=createForm()
-
-@app.route('/property/')
-def createTemplate(error=None, error_msg=None, form= createForm):
     """Render the website's create page."""
-    return render_template('createProperty.html',error=error,error_msg=error_msg, form=createForm, title='Create Property')
-
-    if request.method != "POST": 
-            return createTemplate()
-
-    if 'photo' not in request.files: # Checking if image was sent with request
-        return createTemplate('alert-warning', 'No photo uploaded!')
-
-        _file = request.files['photo']
-
-        # Validation of form data 
-        # Checks that a file was submitted
-        # Checks that file does not contain empty string
-        # as filename
-
-        if not (form.validate() or _file or _file.filename):
-            return createTemplate(error='alert-danger', error_msg='Failed to Create Property!')
-
-        filterUserData = dict(filter(lambda attr: attr[0] in User.attrs, form.data.items())) 
-        photo = secure_filename(_file.filename)
-        _file.save(os.path.join(app.config['UPLOAD_FOLDER'], photo))  
-
-        # Updating filtered user data dictionary with property photo
-        # filename, as well as, save the new user data to database
-
-        filterUserData['photo'] = photo
-        save_user(filterUserData) 
-
-        flash('Success!', 'alert-success')
+    #return render_template('createProperty.html')
+    form=CreateForm()
+    
+    if request.method == "POST" and form.validate_on_submit():
+    # #p1 = PropertyInfo(propTitle = form.propTitle. desc = form.desc.data, rooms= form.rooms.data, btroom=form.btroom.data, price=form.price.data, pType=form.pType.data, location=form.location.data )
+        p1= PropertyInfo(request.form['propTitle'],request.form['desc'],request.form['rooms'],request.form['btroom'],request.form['price'],request.form['pType'], request.form['location'])
+        db.session.add(p1)
+        db.session.commit()
+        flash('Success!')
         return redirect(url_for('properties'))
+    else:
+        flash('Invalid Username/Password.','danger') 
+        #return redirect(url_for("createProperty"))  
+    return render_template('createProperty.html',form=form)
+    
 
 @app.route('/properties/')
 def properties():
