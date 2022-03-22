@@ -34,15 +34,15 @@ def create():
     form=CreateForm()
     
     if request.method == 'POST':
-        if form.validate() == False:
-            flash('Errror!') 
-            return redirect(url_for("home"))  
-        else:
+        if form.validate_on_submit():
             p1= PropertyInfo(request.form['propTitle'],request.form['desc'],request.form['rooms'],request.form['btroom'],request.form['price'],request.form['pType'], request.form['location'])
             db.session.add(p1)
             db.session.commit()
             flash('Success!')
-            return redirect(url_for('properties'))
+            return redirect(url_for('properties')) 
+        else:            
+            flash('Errror!') 
+            return redirect(url_for("home"))  
     return render_template('create.html',form=form)
     
 
