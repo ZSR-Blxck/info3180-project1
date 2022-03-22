@@ -4,7 +4,8 @@
 
 <h1>Add Profile</h1>
 {% include 'flash_messages.html' %}
-<form method="POST" action="{{url_for('create')}}">
+<form method="POST" action="{{request.path}}">
+
     {{ form.csrf_token }}
 
     <!-- Form Fields -->

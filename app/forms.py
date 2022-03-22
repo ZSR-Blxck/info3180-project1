@@ -35,4 +35,4 @@ class CreateForm(FlaskForm):
         ])
    
     photo = FileField("Photo",validators=[FileRequired(), FileAllowed(['jpg', 'png'])])
-    submit = SubmitField("Add Property")
+    submit = SubmitField(label=("Add Property"))
