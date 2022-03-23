@@ -2,15 +2,11 @@ from . import db
 
 
 class PropertyInfo(db.Model):
-    # You can use this to change the table name. The default convention is to use
-    # the class name. In this case a class name of UserProfile would create a
-    # user_profile (singular) table, but if we specify __tablename__ we can change it
-    # to `user_profiles` (plural) or some other name.
     __tablename__ = 'properties'
 
-    id = db.Column(db.INT(), primary_key=True)
+    prop_id = db.Column(db.INT(), primary_key=True)
     propTitle = db.Column(db.String(80))
-    desc = db.Column(db.Text())
+    descr = db.Column(db.Text())
     rooms = db.Column(db.String(80))
     btroom = db.Column(db.String(80))
     price = db.Column(db.INT())
@@ -18,9 +14,9 @@ class PropertyInfo(db.Model):
     location = db.Column(db.String(80))
 
 
-    def __init__(self, propTitle,desc,rooms,btroom,price,pType,location):
+    def __init__(self, propTitle,descr,rooms,btroom,price,pType,location):
         self.propTitle=propTitle
-        self.desc=desc
+        self.descr=descr
         self.rooms=rooms
         self.btroom=btroom
         self.price=price

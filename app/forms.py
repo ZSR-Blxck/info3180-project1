@@ -9,7 +9,7 @@ class CreateForm(FlaskForm):
            InputRequired(),
             Length(min=3,max=30)
         ])
-    desc = TextAreaField('Description', validators=[InputRequired()])
+    descr = TextAreaField('Description', validators=[InputRequired()])
 
     rooms = StringField('No. of Rooms', validators=[
             InputRequired(),

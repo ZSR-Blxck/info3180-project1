@@ -35,7 +35,7 @@ def create():
     
     if request.method == 'POST':
     #     if form.validate_on_submit():
-        p1= PropertyInfo(request.form['propTitle'],request.form['desc'],request.form['rooms'],request.form['btroom'],request.form['price'],request.form['pType'], request.form['location'])
+        p1= PropertyInfo(request.form['propTitle'],request.form['descr'],request.form['rooms'],request.form['btroom'],request.form['price'],request.form['pType'], request.form['location'])
         db.session.add(p1)
         db.session.commit()
         flash('Success!')
